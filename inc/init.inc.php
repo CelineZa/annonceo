@@ -2,8 +2,7 @@
 
 /* ------ CONNEXION À LA BDD ------ */
 try{
-	$bdd = new PDO('mysql:host=localhost;dbname=annonceo','root','');
-	$bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+	$bdd = new PDO('mysql:host=localhost;dbname=annonceo','root','',array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING, PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
 }
 catch(PDOException $e){
 	echo 'Connexion impossible. Message error :'.$e;
