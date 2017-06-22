@@ -4,6 +4,7 @@
 body{
 	margin: 0;
 	padding: 0;
+	font: 16px sans-serif;
 }
 h1{
 	text-align: center;
@@ -23,15 +24,16 @@ header{
 nav{
 	background: #f5f5f5;
 }
-.dropdown{	
+.dropdown{		
+	text-align: center;
 }
 .dropdown ul{
 	display: none;
 	position: absolute;
 	background: #f5f5f5;
 	width: 100%;
-	padding: 0;
 	margin: 0;
+	padding: 0;
 	z-index: 0;
 
   	/* transform: translateY(-100px); */
@@ -42,9 +44,9 @@ nav{
   	/* transform: translateY(0px); */
 }
 .dropdown li{
-	width: 100%;
 	line-height: 30px;
 	text-align: center;
+	border-top: solid 1px #ccc;
 }
 .dropdown li:hover{
 	background: #ccc;
@@ -54,16 +56,27 @@ section form{
 	width: 600px;
 	margin: 0 auto 50px;
 }
-section form input[]{
-	width: 600px;
-	margin: 0 auto 50px;
+.btn-primary{
+	width: 100%;
+}
+.form-connexion{
+	width: 400px;
 }
 
 footer{
 	width: 100%;
 	position: fixed;
 	bottom: 0;
-	background: #f5f5f5;
+	background: #222;
+	color: #fff;
+	font-size: 1.1rem;
+}
+footer a{
+	color: #fff;
+}
+footer a:hover{
+	color: #fff;
+
 }
 footer ul{
 	padding: 0;
@@ -73,18 +86,4 @@ footer li{
 	display: inline-block;
 	margin: 0 10px;
 	line-height: 30px;
-}
-
-/* MESSAGES D'ALERTE */
-
-.erreur{
-	border: solid 1px #ff0000;
-	padding: 5px;
-	margin: 5px;
-	color: #ff0000;
-}
-.validation{
-	background: #693;
-	padding: 5px;
-	margin: 5px;
 }

@@ -7,19 +7,19 @@ if($_POST)
 
 	if(strlen($_POST['pseudo']) < 3 || strlen($_POST['pseudo']) > 20) 
 	{
-		$content .= "<div class='erreur'>Merci de renseigner un pseudo entre 3 et 20 caractères.</div>";
+		$content .= "<div class='alert alert-danger'>Merci de renseigner un pseudo entre 3 et 20 caractères.</div>";
 	}
 	if(!preg_match('#^[a-zA-Z-0-9._-]+$#', $_POST['pseudo']))
 	{
-		$content .= "<div class='erreur'>Erreur de format/caractères pour le pseudo.</div>";
+		$content .= "<div class='alert alert-danger'>Erreur de format/caractères pour le pseudo.</div>";
 	}
 	if(!preg_match('#^[0-9]+$#', $_POST['telephone']))
 	{
-		$content .= "<div class='erreur'>Il ne doit y avoir que des chiffres dans votre code postal.</div>";
+		$content .= "<div class='alert alert-danger'>Il ne doit y avoir que des chiffres dans votre code postal.</div>";
 	}
 	if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
 	{
-		$content .= "<div class='erreur'>Votre mail n'est pas valide !</div>";
+		$content .= "<div class='alert alert-danger'>Votre mail n'est pas valide !</div>";
 	}
 
 	// Contôler les champs du formulaire afin d'ajouter des antislash lorsqu'on saisie un champs avec une apostrophe
@@ -35,7 +35,7 @@ if($_POST)
 	// Si la requête renvoi un résultat cela veut dire que le pseudo existe déjà.
 	if($r->rowCount() >= 1)
 	{
-		$content .= "<div class='erreur'>Ce pseudo est déjà utilisé !</div>";
+		$content .= "<div class='alert alert-danger'>Ce pseudo est déjà utilisé !</div>";
 	}
 
 	if(empty($content)) // S'il n'y a pas de message(s) d'erreur, on insère les données dans la table membre.
@@ -52,7 +52,7 @@ if($_POST)
 
 		$req->execute();
 
-		$content .= "<div class='validation'>Vous êtes inscrit à notre site web. <a href='connexion.php'><u>Cliquez-ici pour vous connecter</u></a></div>";
+		$content .= "<div class='alert alert-success'>Vous êtes inscrit à notre site web. <a href='connexion.php'><u>Cliquez-ici pour vous connecter</u></a></div>";
 	}
 }
 
@@ -69,6 +69,7 @@ echo $content;
 		<label for="pseudo">Pseudo :</label>
 		<input type="text" id="pseudo" name="pseudo" class="form-control" pattern="[a-zA-Zéèàê0-9-_.]{3,20}" placeholder="Pseudo" required="required">
 	</div>
+	
 	<div class="form-group">
 		<label for="mdp">Mot de passe :</label>
 		<input type="password" id="mdp" name="mdp" class="form-control" placeholder="Mot de passe">
@@ -100,7 +101,7 @@ echo $content;
 		<input type="radio" name="civilite" value="f" id="f"> Femme
 	</div>
 
-	<button type="submit" class="btn btn-default">Inscription</button>
+	<button type="submit" class="btn btn-primary">Inscription</button>
 </form>
 
 <?php
