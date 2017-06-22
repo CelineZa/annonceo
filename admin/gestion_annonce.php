@@ -2,7 +2,11 @@
 require_once("../inc/init.inc.php");
 require_once("../inc/haut.inc.php");
 
-
+if(!internauteEstConnecteEtEstAdmin())
+{
+	header("location:../connexion.php");
+	exit(); 
+}
 
 //------------------------- Suppression d'une annonce ---------------------------//
 
