@@ -33,23 +33,23 @@ if(!empty($_POST))
 	}
 	if(strlen($_POST['titre'])<3 || strlen($_POST['titre'])>30)
 	{
-		$content .= '<div class="erreur">Le titre doit comporter entre 3 et 30 caractères</div>';
+		$content .= '<div class="alert alert-danger">Le titre doit comporter entre 3 et 30 caractères</div>';
 	}
 	if(strlen($_POST['description'])<3 || strlen($_POST['description'])>200)
 	{
-		$content .= '<div class="erreur">Merci de renseigner une description entre 15 et 200 caractères</div>';
+		$content .= '<div class="alert alert-danger">Merci de renseigner une description entre 15 et 200 caractères</div>';
 	}
 	if(!is_numeric($_POST['prix']))
 	{
-		$content .= '<div class="erreur">Le format du prix est incorrect, veuillez recommencer</div>';
+		$content .= '<div class="alert alert-danger">Le format du prix est incorrect, veuillez recommencer</div>';
 	}
 	if(strlen($_POST['ville'])<3 || strlen($_POST['ville'])>30)
 	{
-		$content .= '<div class="erreur">Merci de renseigner une ville entre 3 et 30 caractères</div>';
+		$content .= '<div class="alert alert-danger">Merci de renseigner une ville entre 3 et 30 caractères</div>';
 	}	
 	if(!is_numeric($_POST['cp']))
 	{
-		$content .= '<div class="erreur">Le format du code postal est incorrect, veuillez recommencer</div>';
+		$content .= '<div class="alert alert-danger">Le format du code postal est incorrect, veuillez recommencer</div>';
 	}
 	if (filter_var($_POST['photo'], FILTER_VALIDATE_URL)) 
 	{
@@ -57,11 +57,11 @@ if(!empty($_POST))
 	} 
 	else 
 	{
-   		$content .= '<div class="erreur">Ce format d\'url est invalide, veuillez recommencer</div>';
+   		$content .= '<div class="alert alert-danger">Ce format d\'url est invalide, veuillez recommencer</div>';
 	}
 	if(empty($content)){ 
 
-		$content .= '<div class="validation">L\'annonce a été enregistrée avec succès !</div>';
+		$content .= '<div class="alert alert-success">L\'annonce a été enregistrée avec succès !</div>';
 
 		$req = "REPLACE INTO annonce(id_annonce, titre, description, prix, photo, pays, ville, adresse, cp, membre_id, photo_id, categorie_id, date_enregistrement)VALUES(:id_annonce, :titre, :description, :prix, :photo, :pays, :ville, :adresse, :cp, :membre_id, :photo_id, :categorie_id, :date_enregistrement)";
 

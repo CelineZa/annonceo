@@ -69,14 +69,6 @@ footer li{
 	margin: 0 10px;
 	line-height: 30px;
 }
-/***** backoffice : ALERTES ******/
-.validation{
-	color:green;
-}
-.error{
-	color:red;
-}
-
 
 /***** backoffice : AFFICHAGE DES TABLEAUX ******/
 .icon{
