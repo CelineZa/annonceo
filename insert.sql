@@ -56,4 +56,5 @@ INSERT INTO annonce(titre,description,prix,photo,pays,ville,adresse,cp,membre_id
 ('Détente dans une Yourte','Pourquoi pas ?!',300,'http://vignette4.wikia.nocookie.net/minoutorou/images/5/50/Yourte.jpg/revision/latest?cb=20131128235916&path-prefix=fr','France','Charleville-Mézières','13 rue de Wailly',08000,5,10,3,now()),
 ('Téléviseur 16:9', 'à l\'ancienne et ça fonctionne encore',10,'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQWfsfBrVcRJUV3Q6xKCvDaWQv6nAc1Gp-0HRs0cL5QVNTOCXw','France','Lorient','117 Boulevard Léon Blum',56100,8,11,4,now()),
 ('Retroprojecteur en panne','à récuper chez Webforce3',5,'https://cdn.hellocasa.fr/hellocasa/bundles/herculeservice/images/newservice/installation-et-branchement-de-videoprojecteur.jpg?v=1487006593','France','Paris','82 Avenue Denfert-Rochereau',75014,11,12,4,now()),
-('Ordinateur XB22RT45','petit, puissant, pas cher',60,'http://www.tinkuy.fr/system/publication_pictures/attachments/000/008/083/show/open-uri20120328-4688-1nhf6n-0?1332957207','France','Bourges','8 Rue des Arènes',18000,7,13,4,now()),
+('Ordinateur XB22RT45','petit, puissant, pas cher',60,'http://www.tinkuy.fr/system/publication_pictures/attachments/000/008/083/show/open-uri20120328-4688-1nhf6n-0?1332957207','France','Bourges','8 Rue des Arènes',18000,7,13,4,now());
+
