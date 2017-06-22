@@ -51,7 +51,12 @@ nav{
 }
 
 section form{
-	margin-bottom: 50px;
+	width: 600px;
+	margin: 0 auto 50px;
+}
+section form input[]{
+	width: 600px;
+	margin: 0 auto 50px;
 }
 
 footer{
@@ -68,4 +73,18 @@ footer li{
 	display: inline-block;
 	margin: 0 10px;
 	line-height: 30px;
+}
+
+/* MESSAGES D'ALERTE */
+
+.erreur{
+	border: solid 1px #ff0000;
+	padding: 5px;
+	margin: 5px;
+	color: #ff0000;
+}
+.validation{
+	background: #693;
+	padding: 5px;
+	margin: 5px;
 }
