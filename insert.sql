@@ -58,3 +58,8 @@ INSERT INTO annonce(titre,description,prix,photo,pays,ville,adresse,cp,membre_id
 ('Retroprojecteur en panne','à récuper chez Webforce3',5,'https://cdn.hellocasa.fr/hellocasa/bundles/herculeservice/images/newservice/installation-et-branchement-de-videoprojecteur.jpg?v=1487006593','France','Paris','82 Avenue Denfert-Rochereau',75014,11,12,4,now()),
 ('Ordinateur XB22RT45','petit, puissant, pas cher',60,'http://www.tinkuy.fr/system/publication_pictures/attachments/000/008/083/show/open-uri20120328-4688-1nhf6n-0?1332957207','France','Bourges','8 Rue des Arènes',18000,7,13,4,now());
 
+INSERT INTO commentaire(membre_id, annonce_id, commentaire, date_enregistrement) VALUES
+(1, 1, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, excepturi.', now() ),
+(2, 2, 'Lorem ipsum.', now() ),
+(3, 3, 'Lorem ipsum dolor sit amet.', now() ),
+(4, 4, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.', now() );
