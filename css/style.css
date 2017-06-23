@@ -8,6 +8,7 @@ body{
 }
 h1{
 	text-align: center;
+	font-size: 2.5rem;
 }
 
 a {
@@ -95,5 +96,9 @@ footer li{
 	margin:10px;
 }
 th, tr, td{
+	width: auto;
 	padding:5px;
+}
+section .container{
+	margin-bottom: 50px;
 }
