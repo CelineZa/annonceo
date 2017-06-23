@@ -14,7 +14,7 @@ if(!internauteEstConnecte())
 if(isset($_GET['action']) && $_GET['action'] == 'suppression')
 {
 	$bdd->exec("DELETE FROM annonce WHERE id_annonce = '$_GET[id_annonce]'");
-	$content .= "<div class='validation'>L'annonce n°" . $_GET['id_annonce'] . " a été supprimée </div>";
+	$content .= "<div class='alert alert-success'>L'annonce n°" . $_GET['id_annonce'] . " a été supprimée </div>";
 	$_GET['action']='affichage';
 }
 
@@ -201,8 +201,8 @@ if(!empty($_POST))
 //----------------------------- Liens annonces ---------------------------------//
 
 
-$content .= '<a href="?action=affichage"><u>Afficher mes annonces</u></a><br>';
-$content .= '<a href="?action=ajout"><u>Ajouter une annonce</u></a><br><br><hr>';
+//$content .= '<a href="?action=affichage"><u>Afficher mes annonces</u></a><br>';
+//$content .= '<a href="?action=ajout"><u>Déposer une annonce</u></a><br><br>';
 
 
 
@@ -301,6 +301,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'm
 
 ?>
 
+<a href="?action=affichage"><u>Retour vers mes annonces</u></a><hr>
 <h1>Ajouter ou modifier une annonce</h1>
 
 <form action="" method="post" enctype="multipart/form-data">
@@ -325,6 +326,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'm
 	<input class="form-control" type="text" name="prix" id="prix" placeholder="prix" required="required" value="<?php echo $prix; ?>">
 	</div>
 
+
 	<div class="form-group">
 	<label for="categorie_id">Categorie</label>
 	<select id="categorie_id" name="categorie_id"  class="form-control">
@@ -345,7 +347,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'm
 
 </div>
 
-  <div class="col-md-6">
+<div class="col-md-6">
 
 	<div class="form-group">
 	<label for="pays">Pays</label>
@@ -362,6 +364,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'm
 	<label for="ville">Ville</label>
 	<input class="form-control" type="text" name="ville" id="ville" placeholder="ville" required="required" value="<?php echo $ville; ?>">
 	</div>
+
 
 	<div class="form-group">
 	<label for="adresse">Adresse</label>
@@ -390,8 +393,8 @@ if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'm
 	<input type="hidden" name="photo_actuelle" value="<?php echo $photo; ?>">
 
 	<div class="form-group">
-	<label for="photo">Photos</label>
-	<input type="file" name="photo" id="photo" > <?php if(!empty($photo)) {echo '<i>Vous pouvez uploader une nouvelle photo si vous souhaitez la modifier</i><br>'; echo '<img src="'. $photo .'" width="250"><br>';} ?>
+	<label for="photo">Photo principale</label>
+	<input type="file" name="photo" id="photo" > <?php if(empty($photo)) {echo '<img src="../image/photo.png" width="250"><br>';} else {echo'<i>Vous pouvez uploader une nouvelle photo si vous souhaitez la modifier</i><br>'; echo '<img src="'. $photo .'" width="250"><br>';} ?>
 
 	<label for="photo1">Photo 1</label>
 	<input type="file" name="photo1" id="photo1"> <?php if(empty($photo1)) echo '<img src="../image/photo.png" width="100"><br>'; else echo '<img src="'. $photo1 .'" width="250"><br>'; ?>

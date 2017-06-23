@@ -13,13 +13,13 @@ if(!internauteEstConnecteEtEstAdmin())
 if(isset($_GET['action']) && $_GET['action'] == 'suppression')
 {
 	$bdd->exec("DELETE FROM annonce WHERE id_annonce = '$_GET[id_annonce]'");
-	$content .= "<div class='validation'>L'annonce n°" . $_GET['id_annonce'] . " a été supprimée </div>";
+	$content .= "<div class='alert alert-success'>L'annonce n°" . $_GET['id_annonce'] . " a été supprimée </div>";
 	$_GET['action']='affichage';
 }
 
 
 
-//---------------------- Ajouter une annonce via formulaire ---------------------------//
+//---------------------- Modifier une annonce via formulaire ---------------------------//
 
 
 if(!empty($_POST))
@@ -91,8 +91,8 @@ if(!empty($_POST))
 //----------------------------- Liens annonces ---------------------------------//
 
 
-$content .= '<a href="?action=affichage"><u>Affichage des annonces</u></a><br>';
-//$content .= '<a href="?action=ajout"><u>Ajouter une annonce</u></a><br><br><hr>';
+//$content .= '<a href="?action=affichage"><u>Affichage des annonces</u></a><br>';
+//$content .= '<a href="?action=ajout"><u>Ajouter une annonce</u></a><br><br>';
 
 
 

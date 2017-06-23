@@ -31,7 +31,7 @@
 					?>
 			    	<ul class="nav navbar-nav">
 						<?php
-								echo '<li><a href="' . URL . 'admin/gestion_annonce.php">Annonces</a></li>';
+								echo '<li><a href="' . URL . 'admin/gestion_annonce.php?action=affichage">Annonces</a></li>';
 								echo '<li><a href="' . URL . 'admin/gestion_categorie.php">Catégories</a></li>';
 								echo '<li><a href="' . URL . 'admin/gestion_commentaire.php">Commentaires</a></li>';
 								echo '<li><a href="' . URL . 'admin/gestion_membre.php">Membres</a></li>';
@@ -49,7 +49,8 @@
 							if(internauteEstConnecte())
 							{
 								echo '<li><a href="' . URL . 'membre/profil.php">Mon profil</a></li>';
-								echo '<li><a href="' . URL . 'membre/ajouter_annonce.php">Ajouter une annonce</a></li>';
+								echo '<li><a href="' . URL . 'membre/gestion_annonce_membre.php?action=affichage">Mes annonces</a></li>';
+								echo '<li><a href="' . URL . 'membre/gestion_annonce_membre.php?action=ajout">Déposer une annonce</a></li>';
 							}
 							echo '<li><a href="' . URL . 'qui_sommes_nous.php">Qui Sommes Nous</a></li>';
 							echo '<li><a href="' . URL . 'contact.php">Contact</a></li>';
