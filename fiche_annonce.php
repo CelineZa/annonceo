@@ -11,11 +11,8 @@ if(isset($_GET['id_annonce']))
 $annonce = $resultat->fetch(PDO::FETCH_ASSOC);
 //debug($annonce);
 //debug($annonce['membre_id']);
-
 $membre = $bdd->query("SELECT * FROM membre WHERE id_membre = '$annonce[membre_id]'");
 $contact = $membre->fetch(PDO::FETCH_ASSOC);
-
-
 
 
 
@@ -68,19 +65,18 @@ Membre : id_membre, prenom, moyenne_note
   <div class="row">
     
  <div class="row">
-  <div class="col-xs-12 col-md-6">PHOTOS
-
-  </div>
-  <div class="col-xs-12 col-md-6">DESCRIPTION
-
-  </div>
+  <div class="col-xs-12 col-md-6"> <img src="<?php echo $annonce['photo'];?>" alt="photo"> </div>
+  <div class="col-xs-12 col-md-6"> <?php echo $annonce['description'];?> </div>
 
 </div>
 
 <div class="row">
-  <div class="col-xs-4 col-md-4">icone Calendar Date de publication</div>
-  <div class="col-xs-4 col-md-4">icone tête + lien prenom + Note</div>
-  <div class="col-xs-4 col-md-4">icone € + Prix</div>
+  <div class="col-xs-4 col-md-4"> <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span><?php echo  " " .  $annonce['date_enregistrement'];?> </div>
+
+  <div class="col-xs-4 col-md-4"><span class="glyphicon glyphicon-user" aria-hidden="true"> <a href="membre/profil.php?prenom=<?php echo $contact['prenom']?>"><?php echo " " . $contact['moyenne_note'] ;?>"</a></div>
+
+  <div class="col-xs-4 col-md-4"><span class="glyphicon glyphicon glyphicon-euro" aria-hidden="true"><?php echo  " " .  $annonce['prix'];?></div>
+  
   <div class="col-xs-4 col-md-4">icone point gmap + Adresse</div>
 </div>
 
