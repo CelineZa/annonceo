@@ -6,9 +6,9 @@ require_once("../inc/haut.inc.php");
 
 if(isset($_GET['action']) && $_GET['action'] == 'suppression')
 {
-	$resultat = $pdo->exec("DELETE FROM membre WHERE id_membre = '$_GET[id_membre]'");
+	$resultat = $bdd->exec("DELETE FROM membre WHERE id_membre = '$_GET[id_membre]'");
+	$content .= "<div class='validation'>Le membre n°" . $_GET['id_membre'] . " a été supprimée </div>";
 	$_GET['action'] ='affichage';
-
 }
 
 /***************ENREGISTREMENT DES MEMBRES*******************/
@@ -27,12 +27,11 @@ if(!empty($_POST))
 	if(empty($content))
 	{
 
-		$req = "REPLACE INTO membre (pseudo,mdp,nom,prenom,telephone,email,civilite,statut) VALUES(:pseudo,:mdp,:nom,:prenom,:telephone,:email,:civilite,:statut,)";
+		$req = "REPLACE INTO membre (pseudo,nom,prenom,telephone,email,civilite,statut) VALUES(:pseudo,:nom,:prenom,:telephone,:email,:civilite,:statut)";
 
 		$r = $bdd->prepare($req);
 
 		$r->bindParam(':pseudo',$_POST['pseudo'],PDO::PARAM_STR);
-		$r->bindParam(':mdp',$_POST['mdp'], PDO::PARAM_STR);
 		$r->bindParam('nom',$_POST['nom'], PDO::PARAM_STR);
 		$r->bindParam('prenom',$_POST['prenom'], PDO::PARAM_STR);
 		$r->bindParam('telephone',$_POST['telephone'], PDO::PARAM_INT);
@@ -82,24 +81,21 @@ echo $content;
 /**********************MODIFICATION MEMBRE********************/
 if($_GET)
 {
-if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'modification')
-{
-	if(isset($_GET['id_membre']))
+	if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'modification')
 	{
-		$resultat = $bdd->query("SELECT * FROM membre WHERE id_membre = $_GET[id_membre]");
-		$membre_actuel = $resultat->fetch(PDO::FETCH_ASSOC);
-	}
-	$id_membre = (isset($membre_actuel['id_membre'])) ? $membre_actuel['id_membre'] :"";
-	$pseudo = (isset($membre_actuel['pseudo'])) ? $membre_actuel['pseudo'] :"";
-	$mdp = (isset($membre_actuel['mdp'])) ? $membre_actuel['mdp'] :"";
-	$nom = (isset($membre_actuel['nom'])) ? $membre_actuel['nom'] :"";
-	$prenom = (isset($membre_actuel['prenom'])) ? $membre_actuel['prenom'] :"";
-	$telephone = (isset($membre_actuel['telephone'])) ? $membre_actuel['telephone'] :"";
-	$email = (isset($membre_actuel['email'])) ? $membre_actuel['email'] :"";
-	$civilite = (isset($membre_actuel['civilite'])) ? $membre_actuel['civilite'] :"";
-	$statut = (isset($membre_actuel['statut'])) ? $membre_actuel['statut'] :"";
-	$date_enregistrement = (isset($membre_actuel['date_enregistrement'])) ? $membre_actuel['date_enregistrement'] :"";
-	$moyenne_note = (isset($membre_actuel['moyenne_note'])) ? $membre_actuel['moyenne_note'] :"";
+		if(isset($_GET['id_membre']))
+		{
+			$resultat = $bdd->query("SELECT * FROM membre WHERE id_membre = $_GET[id_membre]");
+			$membre_actuel = $resultat->fetch(PDO::FETCH_ASSOC);
+		}
+		$pseudo = (isset($membre_actuel['pseudo'])) ? $membre_actuel['pseudo'] :"";
+		$mdp = (isset($membre_actuel['mdp'])) ? $membre_actuel['mdp'] :"";
+		$nom = (isset($membre_actuel['nom'])) ? $membre_actuel['nom'] :"";
+		$prenom = (isset($membre_actuel['prenom'])) ? $membre_actuel['prenom'] :"";
+		$telephone = (isset($membre_actuel['telephone'])) ? $membre_actuel['telephone'] :"";
+		$email = (isset($membre_actuel['email'])) ? $membre_actuel['email'] :"";
+		$civilite = (isset($membre_actuel['civilite'])) ? $membre_actuel['civilite'] :"";
+		$statut = (isset($membre_actuel['statut'])) ? $membre_actuel['statut'] :"";
 
 ?>
 
@@ -140,17 +136,9 @@ if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'm
 
 			<div class="form-group">
 			<label for="civilite">CIVILITE</label>
-				<select class="form-control">
+				<select name="civilite" class="form-control">
 		  			<option value="f"'; if($civilite == 'f') { echo 'selected';} echo'>FEMME</option>
-					<option value="h"'; if($civilite == 'h') { echo 'selected';} echo'>FEMME</option>
-				</select>
-		</div>
-
-		<div class="form-group">
-			<label for="statut">STATUT</label>
-				<select class="form-control">
-		  			<option value="1"'; if($statut == '1') { echo 'selected';} echo'>ADMIN</option>
-					<option value="0"'; if($statut == '0') { echo 'selected';} echo'>MEMBRE</option>
+					<option value="h"'; if($civilite == 'h') { echo 'selected';} echo'>HOMME</option>
 				</select>
 		</div>
 
@@ -158,12 +146,20 @@ if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'm
 			<label for="email">EMAIL</label>
 				<input type="text" name="email" id="email"  placeholder="Email à modifier" value="<?php echo $email?>"">	
 		</div>
+
+		<div class="form-group">
+			<label for="statut">STATUT</label>
+				<select name="statut" class="form-control">
+		  			<option value="1"'; if($statut == '1') { echo 'selected';} echo'>ADMIN</option>
+					<option value="0"'; if($statut == '0') { echo 'selected';} echo'>MEMBRE</option>
+				</select>
+		</div>
 			
 		<button type="submit" class ="btn btn-default">Envoyer les modifications"</button>
 </form>
 
 <?php
-}
+	}
 }
 require_once("../inc/bas.inc.php");
 
