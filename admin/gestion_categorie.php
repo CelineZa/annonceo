@@ -7,58 +7,101 @@ require_once("../inc/haut.inc.php");
 if(isset($_GET['action']) && $_GET['action'] == 'suppression')
 {
 	$resultat = $bdd->exec("DELETE FROM categorie WHERE id_categorie = '$_GET[id_categorie]'");
-	$_GET['action'] ='affichage';
 	$content .= '<div class="alert alert-success"><strong>Catégorie bien supprimée !</strong></div>';
+	$_GET['action'] ='affichage';
 }
 
-/************ AFFICHAGE DES CATEGORIES ***********/
 
-$r = $bdd->query("SELECT * FROM categorie");
-$content .="<table border='2' style='border-collapse:collapse;'><tr>";
-	for($i = 0; $i < $r->columnCount();$i++)
+
+/***************ENREGISTREMENT D'UNE CATEGORIE*******************/
+
+if(!empty($_POST))
+{
+	foreach ($_POST as $indice => $valeurs)
 	{
-		$colonne= $r->getColumnMeta($i);
-		$content .="<th>$colonne[name]</th>";
+		$_POST[$indice] = strip_tags($valeurs);
+		$_POST[$indice] = htmlentities($valeurs);
+		$_POST[$indice] = addslashes($valeurs);
+		$_POST[$indice] = htmlentities($valeurs);
+		$_POST[$indice] = htmlspecialchars($valeurs);
 	}
-	$content .="<th> actions </th>";
 
-	$content .="</tr>";
-
-	while($ligne = $r->fetch(PDO::FETCH_ASSOC))
+	if(empty($content))
 	{
-		$content .= '<tr>';
+		$content .= '<div class="alert alert-success"> ok !</div>';
 
-		foreach($ligne as $indice => $valeur)
+		$req = "REPLACE INTO categorie(id_categorie,titre,motscles)VALUES(:id_categorie, :titre,:motscles)";
+
+		$r = $bdd->prepare($req);
+
+		$r->bindParam(':id_categorie', $_POST['id_categorie'],PDO::PARAM_INT);
+		$r->bindParam(':titre', $_POST['titre'],PDO::PARAM_STR);
+		$r->bindParam(':motscles', $_POST['motscles'], PDO::PARAM_STR);
+
+		$r->execute();
+
+	}
+}
+
+//----------------------------- Liens ---------------------------------//
+
+
+$content .= '<a href="?action=affichage"><u>Affichage une catégorie</u></a><br>';
+$content .= '<a href="?action=ajout"><u>Ajouter une catégorie</u></a><br><br><hr>';
+
+/****************AFFICHAGE DES CATEGORIES*****************/
+
+if(isset($_GET['action']) && $_GET['action'] == 'affichage')
+{
+	$r = $bdd->query("SELECT * FROM categorie");
+		$content .= "<h1> Affichage des " . $r->rowCount() . " categories(s)</h1>";
+		$content .= "<table border='1' style='border-collapse:collapse;'><tr>";
+		for ($i= 0; $i< $r->columnCount(); $i++)
 		{
-			$content .= "<td>$valeur</td>";
+			$colonne = $r->getColumnMeta($i);
+			$content .= "<th>$colonne[name]</th>";
 		}
-		$content .= "<td><a href=\"?action=zoom&id_categorie=$ligne[id_categorie]\"><img src=\"../image/zoom.png\" class=\"icon\" alt=\"zoom\"></a>";
+		$content .="<th> actions </th>";
 
-		$content .= "<a href=\"?action=modification&id_categorie=$ligne[id_categorie]\"><img src=\"../image/edit.png\" class=\"icon\" alt=\"modification\"></a>";
-
-		$content .= "<a href=\"?action=suppression&id_categorie=$ligne[id_categorie]\" OnClick=\"return(confirm('En êtes vous certain?'));\"><img src=\"../image/delete.png\" class =\"icon\" alt=\"suppression\"></a></td>";
 		$content .="</tr>";
-	}
+
+		while($ligne = $r->fetch(PDO::FETCH_ASSOC))
+		{
+			$content .= '<tr>';
+
+			foreach($ligne as $indice => $valeur)
+			{
+				$content .= "<td>$valeur</td>";
+			}
+			$content .= "<td><a href=\"?action=zoom&id_categorie=$ligne[id_categorie]\"><img src=\"../image/zoom.png\" class=\"icon\" alt=\"zoom\"></a>";
+
+			$content .= "<a href=\"?action=modification&id_categorie=$ligne[id_categorie]\"><img src=\"../image/edit.png\" class=\"icon\" alt=\"modification\"></a>";
+
+			$content .= "<a href=\"?action=suppression&id_categorie=$ligne[id_categorie]\" OnClick=\"return(confirm('En êtes vous certain?'));\"><img src=\"../image/delete.png\" class =\"icon\" alt=\"suppression\"></a></td>";
+			$content .="</tr>";
+		}
 	$content .= '</table>';
+}
+
+
 
 
 echo $content;
-
-
 /**********************AFFICHAGE ZOOM ****************************/
 
-/**********************MODIFICATION CATEGORIE********************/
-
-if(isset($_GET['action']) && $_GET['action'] == 'modification')
+/**********************AFFICHAGE CATEGORIE DANS FORMULAIRE si click sur icone********************/
+if($_GET)
 {
-	if(isset($_GET['id_categorie']))
+	if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'modification' )
 	{
-		$resultat = $bdd->query("SELECT * FROM categorie WHERE id_categorie = $_GET[id_categorie]");
-		$categorie_actuelle = $resultat->fetch(PDO::FETCH_ASSOC);
-	}
-	$id_categorie = (isset($categorie_actuelle['id_categorie'])) ? $categorie_actuelle['id_categorie'] :"";
-	$titre = (isset($categorie_actuelle['titre'])) ? $categorie_actuelle['titre'] : "";
-	$motscles = (isset($categorie_actuelle['motscles'])) ? $categorie_actuelle['motscles'] : "";
+		if(isset($_GET['id_categorie']))
+		{
+			$resultat = $bdd->query("SELECT * FROM categorie WHERE id_categorie = $_GET[id_categorie]");
+			$categorie_actuelle = $resultat->fetch(PDO::FETCH_ASSOC);
+		}
+		$id_categorie = (isset($categorie_actuelle['id_categorie'])) ? $categorie_actuelle['id_categorie'] :"";
+		$titre = (isset($categorie_actuelle['titre'])) ? $categorie_actuelle['titre'] : "";
+		$motscles = (isset($categorie_actuelle['motscles'])) ? $categorie_actuelle['motscles'] : "";
 
 
 ?>
@@ -75,27 +118,19 @@ if(isset($_GET['action']) && $_GET['action'] == 'modification')
 
 		<div class="form-group">
 			<label for="titre">TITRE DE LA CATEGORIE</label>
-				<select class="form-control">
-		  			<option value="vehicule"'; if($categorie == 'vehicule') { echo 'selected';} echo'>Vehicule</option>
-					<option value="immobilier"'; if($categorie == 'immobilier') { echo 'selected';} echo'>Immobilier</option>
-					<option value="vacances"'; if($categorie == 'vacances') { echo 'selected';} echo'>Vacances</option>
-					<option value="multimedia"'; if($categorie == 'multimedia') { echo 'selected';} echo'>Multimédia</option>
-					<option value="loisirs"'; if($categorie == 'loisirs') { echo 'selected';} echo'>Loisirs</option>
-					<option value="materiel"'; if($categorie == 'materiel') { echo 'selected';} echo'>Matériel</option>
-					<option value="services"'; if($categorie == 'services') { echo 'selected';} echo'>Services</option>
-					<option value="maison"'; if($categorie == 'vetements') { echo 'selected';} echo'>Vêtements</option>
-				</select>
+				<input type="text" name="titre" id="titre" class="form-control" placeholder="renseigner un titre de catégorie " value="<?php echo $titre;?>">		
 		</div>
 
 		<div class="form-group">
 			<label for="motscles">MOTS CLES</label>
-				<input type="text" name="motscles" id="motscles"  placeholder="Mots cles à modifier" value="<?php echo $motscles?>"">	
+				<textarea name="motscles" for="motscles" placeholder="Rajouter des mots cles" id="motscles" class="form-control" rows="3"> <?php echo $motscles;?></textarea>
 		</div>		
 			
-			<button type="submit" class ="btn btn-default">Envoyer les modifications"</button>
+			<button type="submit" class ="btn btn-default">Envoyer les modifications</button>
 </form>
 
 <?php
+}
 }
 require_once("../inc/bas.inc.php");
 
