@@ -2,11 +2,12 @@
 require_once("../inc/init.inc.php");
 require_once("../inc/haut.inc.php");
 
-if(!internauteEstConnecteEtEstAdmin())
+if(!internauteEstConnecte())
 {
 	header("location:../connexion.php");
 	exit(); 
 }
+
 
 //------------------------- Suppression d'une annonce ---------------------------//
 
@@ -24,7 +25,93 @@ if(isset($_GET['action']) && $_GET['action'] == 'suppression')
 
 if(!empty($_POST))
 {
-	if(isset($_GET['action']) && $_GET['action'] == 'modification')
+
+	$photo_bdd ='';
+
+	if(isset($_GET['action']) && $_GET['action'] == 'modification' || $_GET['action'] == 'ajout' )
+	{
+		$photo_bdd = $_POST['photo_actuelle'];
+	}
+
+	if(!empty($_FILES['photo']['name']))
+	{
+		$nom_photo = $_POST['membre_id'] . '_' . $_FILES['photo']['name'];
+
+		$photo_bdd = URL . "photo/$nom_photo";
+	
+		$photo_dossier = RACINE_SITE . "photo/$nom_photo";
+		
+		copy($_FILES['photo']['tmp_name'], $photo_dossier);
+		//echo '<pre>'; print_r($_POST); echo '</pre>';
+	}
+
+
+
+	if(!empty($_FILES['photo1']['name']))
+	{
+		$nom_photo = $_POST['membre_id'] . '_' . $_FILES['photo1']['name'];
+
+		$photo1_bdd = URL . "photo/$nom_photo";
+		
+		$photo_dossier = RACINE_SITE . "photo/$nom_photo";
+			
+		copy($_FILES['photo1']['tmp_name'], $photo_dossier);
+		//echo '<pre>'; print_r($_POST); echo '</pre>';
+	}
+
+	if(!empty($_FILES['photo2']['name']))
+	{
+		$nom_photo = $_POST['membre_id'] . '_' . $_FILES['photo2']['name'];
+
+		$photo2_bdd = URL . "photo/$nom_photo";
+		
+		$photo_dossier = RACINE_SITE . "photo/$nom_photo";
+			
+		copy($_FILES['photo2']['tmp_name'], $photo_dossier);
+		//echo '<pre>'; print_r($_POST); echo '</pre>';
+	}
+
+	if(!empty($_FILES['photo3']['name']))
+	{
+		$nom_photo = $_POST['membre_id'] . '_' . $_FILES['photo3']['name'];
+
+		$photo3_bdd = URL . "photo/$nom_photo";
+		
+		$photo_dossier = RACINE_SITE . "photo/$nom_photo";
+			
+		copy($_FILES['photo3']['tmp_name'], $photo_dossier);
+		//echo '<pre>'; print_r($_POST); echo '</pre>';
+	}
+
+	if(!empty($_FILES['photo4']['name']))
+	{
+		$nom_photo = $_POST['membre_id'] . '_' . $_FILES['photo4']['name'];
+
+		$photo4_bdd = URL . "photo/$nom_photo";
+		
+		$photo_dossier = RACINE_SITE . "photo/$nom_photo";
+			
+		copy($_FILES['photo4']['tmp_name'], $photo_dossier);
+		//echo '<pre>'; print_r($_POST); echo '</pre>';
+	}
+
+	if(!empty($_FILES['photo5']['name']))
+	{
+		$nom_photo = $_POST['membre_id'] . '_' . $_FILES['photo5']['name'];
+
+		$photo5_bdd = URL . "photo/$nom_photo";
+		
+		$photo_dossier = RACINE_SITE . "photo/$nom_photo";
+			
+		copy($_FILES['photo5']['tmp_name'], $photo_dossier);
+		//echo '<pre>'; print_r($_POST); echo '</pre>';
+	}
+
+
+
+
+	
+	if(isset($_GET['action']) && $_GET['action'] == 'modification' ||  $_GET['action'] == 'ajout' )
 	{
 		foreach($_POST as $indice => $valeur)
 		{
@@ -51,17 +138,34 @@ if(!empty($_POST))
 	{
 		$content .= '<div class="alert alert-danger">Le format du code postal est incorrect, veuillez recommencer</div>';
 	}
-	if (filter_var($_POST['photo'], FILTER_VALIDATE_URL)) 
+	/*if (filter_var($_POST['photo'], FILTER_VALIDATE_URL)) 
 	{
     	$content .='';
 	} 
 	else 
 	{
    		$content .= '<div class="alert alert-danger">Ce format d\'url est invalide, veuillez recommencer</div>';
-	}
+	}*/
+
+
 	if(empty($content)){ 
 
 		$content .= '<div class="alert alert-success">L\'annonce a été enregistrée avec succès !</div>';
+
+		$request = "REPLACE INTO photo(photo1, photo2, photo3, photo4, photo5)VALUES(:photo1, :photo2, :photo3, :photo4, :photo5)";
+
+		$re = $bdd->prepare($request);
+
+		$re->bindValue(':photo1', $photo1_bdd, PDO::PARAM_STR);
+		$re->bindValue(':photo2', $photo2_bdd, PDO::PARAM_STR);
+		$re->bindValue(':photo3', $photo3_bdd, PDO::PARAM_STR);
+		$re->bindValue(':photo4', $photo4_bdd, PDO::PARAM_STR);
+		$re->bindValue(':photo5', $photo5_bdd, PDO::PARAM_STR);
+
+		$re->execute();
+
+
+		
 
 		$req = "REPLACE INTO annonce(id_annonce, titre, description, prix, photo, pays, ville, adresse, cp, membre_id, photo_id, categorie_id, date_enregistrement)VALUES(:id_annonce, :titre, :description, :prix, :photo, :pays, :ville, :adresse, :cp, :membre_id, :photo_id, :categorie_id, :date_enregistrement)";
 
@@ -71,7 +175,7 @@ if(!empty($_POST))
 		$r->bindValue(':titre', $_POST['titre'], PDO::PARAM_STR);
 		$r->bindValue(':description', $_POST['description'], PDO::PARAM_STR);
 		$r->bindValue(':prix', $_POST['prix'], PDO::PARAM_STR);
-		$r->bindValue(':photo', $_POST['photo'], PDO::PARAM_STR);
+		$r->bindValue(':photo', $photo_bdd, PDO::PARAM_STR);
 		$r->bindValue(':pays', $_POST['pays'], PDO::PARAM_STR);
 		$r->bindValue(':ville', $_POST['ville'], PDO::PARAM_STR);
 		$r->bindValue(':adresse', $_POST['adresse'], PDO::PARAM_STR);
@@ -83,7 +187,13 @@ if(!empty($_POST))
 
 		$r->execute();
 
-	}
+
+		$_GET['action']='affichage';
+
+
+
+		}
+
 }
 		
 
@@ -91,8 +201,8 @@ if(!empty($_POST))
 //----------------------------- Liens annonces ---------------------------------//
 
 
-$content .= '<a href="?action=affichage"><u>Affichage des annonces</u></a><br>';
-//$content .= '<a href="?action=ajout"><u>Ajouter une annonce</u></a><br><br><hr>';
+$content .= '<a href="?action=affichage"><u>Afficher mes annonces</u></a><br>';
+$content .= '<a href="?action=ajout"><u>Ajouter une annonce</u></a><br><br><hr>';
 
 
 
@@ -101,7 +211,12 @@ $content .= '<a href="?action=affichage"><u>Affichage des annonces</u></a><br>';
 if(isset($_GET['action']) && $_GET['action'] == 'affichage')
 {
 
-$r = $bdd->query("SELECT * FROM annonce");
+//echo '<pre>'; print_r($_SESSION); echo '</pre>';
+//echo '<pre> id_membre = '; print_r($_SESSION['membre']['id_membre']); echo '</pre>';
+
+$id_membre_connecte = $_SESSION['membre']['id_membre'];
+
+$r = $bdd->query("SELECT * FROM annonce WHERE membre_id = $id_membre_connecte ");
 $content .= "<h1>Affichage des " . $r->rowCount() . " annonces</h1>";
 $content .= "<table border='1' style='border-collapse:collapse;'><tr>";
 
@@ -138,13 +253,13 @@ $content .= "</table>";
 echo $content;
 
 
-//----------------------------- Modifier une annonce --------------------------------//
+//----------------------------- Modifier ou Ajouter une annonce --------------------------------//
 
 
 if($_GET)
 {
 
-if(isset($_GET['action']) && $_GET['action'] == 'modification') 
+if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'modification') 
 {
 	if(isset($_GET['id_annonce']))
 	{
@@ -162,17 +277,36 @@ if(isset($_GET['action']) && $_GET['action'] == 'modification')
 	$ville = (isset($annonce_actuel['ville'])) ? $annonce_actuel['ville'] : '';
 	$adresse = (isset($annonce_actuel['adresse'])) ? $annonce_actuel['adresse'] : '';
 	$cp = (isset($annonce_actuel['cp'])) ? $annonce_actuel['cp'] : '';
-	$membre_id = (isset($annonce_actuel['membre_id'])) ? $annonce_actuel['membre_id'] : '';
+	$membre_id = (isset($annonce_actuel['membre_id'])) ? $annonce_actuel['membre_id'] : $_SESSION['membre']['id_membre'];
 	$photo_id = (isset($annonce_actuel['photo_id'])) ? $annonce_actuel['photo_id'] : '';
 	$categorie_id = (isset($annonce_actuel['categorie_id'])) ? $annonce_actuel['categorie_id'] : '';
 	$date_enregistrement = (isset($annonce_actuel['date_enregistrement'])) ? $annonce_actuel['date_enregistrement'] : '';
 
+
+
+	if(isset($_GET['id_annonce']))
+	{
+		$result = $bdd->query("SELECT * FROM photo WHERE id_photo = $photo_id"); 
+
+		$annonc_actuel = $result->fetch(PDO::FETCH_ASSOC); 
+	}
+
+	$photo1 = (isset($annonc_actuel['photo1'])) ? $annonc_actuel['photo1'] : '';
+	$photo2 = (isset($annonc_actuel['photo2'])) ? $annonc_actuel['photo2'] : '';
+	$photo3 = (isset($annonc_actuel['photo3'])) ? $annonc_actuel['photo3'] : '';
+	$photo4 = (isset($annonc_actuel['photo4'])) ? $annonc_actuel['photo4'] : '';
+	$photo5 = (isset($annonc_actuel['photo5'])) ? $annonc_actuel['photo5'] : '';
+
+
+
 ?>
 
-<a href="?action=affichage"><u>Retour</u></a><br>
-<h1>Modifier une annonce</h1>
+<h1>Ajouter ou modifier une annonce</h1>
 
 <form action="" method="post" enctype="multipart/form-data">
+
+<div class="row">
+  <div class="col-md-6">
 
 	<input type="hidden" id="id_annonce" name="id_annonce" value="<?php echo $id_annonce; ?>">
 
@@ -192,9 +326,26 @@ if(isset($_GET['action']) && $_GET['action'] == 'modification')
 	</div>
 
 	<div class="form-group">
-	<label for="photo">Photo url</label>
-	<input class="form-control" type="text" name="photo" id="photo" placeholder="Collez l'url de la photo" required="required" value="<?php echo $photo; ?>">
-	</div>
+	<label for="categorie_id">Categorie</label>
+	<select id="categorie_id" name="categorie_id"  class="form-control">
+	<option> <?php echo $categorie_id; ?> </option>
+	<option value="1">1-Emploi</option>
+	<option value="2">2-Véhicule</option>
+	<option value="3">3-Immobilier</option>
+	<option value="4">4-Vacances</option>
+	<option value="5">5-Multimedia</option>
+	<option value="6">6-Loisirs</option>
+	<option value="7">7-Matériel</option>
+	<option value="8">8-Services</option>
+	<option value="9">9-Maison</option>
+	<option value="10">10-Vêtements</option>
+	<option value="11">11-Autre</option>
+	</select>
+	</div>	
+
+</div>
+
+  <div class="col-md-6">
 
 	<div class="form-group">
 	<label for="pays">Pays</label>
@@ -222,65 +373,48 @@ if(isset($_GET['action']) && $_GET['action'] == 'modification')
 	<input class="form-control" type="text" name="cp" id="cp" placeholder="cp" required="required" value="<?php echo $cp; ?>">
 	</div>
 
-	<div class="form-group">
-	<label for="membre_id">Membre id</label>
-	<input class="form-control" type="text" name="membre_id" id="membre_id" placeholder="membre_id" required="required" value="<?php echo $membre_id; ?>">
-	</div>
-	
+	<input type="hidden" id="membre_id" name="membre_id" value="<?php echo $membre_id; ?>">
+
 	<div class="form-group">
 	<label for="photo_id">Photo id</label>
 	<input class="form-control" type="text" name="photo_id" id="photo_id" placeholder="photo_id" required="required" value="<?php echo $photo_id; ?>">
 	</div>
 
 	<div class="form-group">
-	<label for="categorie_id">Categorie id</label>
-	<select id="categorie_id" name="categorie_id"  class="form-control">
-	<option><?php echo $categorie_id; ?></option>
-	<option value="1">1-Emploi</option>
-	<option value="2">2-Véhicule</option>
-	<option value="3">3-Immobilier</option>
-	<option value="4">4-Vacances</option>
-	<option value="5">5-Multimedia</option>
-	<option value="6">6-Loisirs</option>
-	<option value="7">7-Matériel</option>
-	<option value="8">8-Services</option>
-	<option value="9">9-Maison</option>
-	<option value="10">10-Vêtements</option>
-	<option value="11">11-Autre</option>
-	</select>
+	<label for="date_enregistrement">Date d'enregistrement</label>
+	<input class="form-control" type="date" name="date_enregistrement" id="date_enregistrement" placeholder="date d'enregistrement" required="required" value="<?php echo $date_enregistrement; ?>">
 	</div>
+
+</div>
+
+	<input type="hidden" name="photo_actuelle" value="<?php echo $photo; ?>">
 
 	<div class="form-group">
-	<label for="date_enregistrement">Date d'enregistrement</label>
-	<input class="form-control" type="date" name="date_enregistrement" id="date_enregistrement" placeholder="date_enregistrement" required="required" value="<?php echo $date_enregistrement; ?>">
-	</div>
+	<label for="photo">Photos</label>
+	<input type="file" name="photo" id="photo" > <?php if(!empty($photo)) {echo '<i>Vous pouvez uploader une nouvelle photo si vous souhaitez la modifier</i><br>'; echo '<img src="'. $photo .'" width="250"><br>';} ?>
 
+	<label for="photo1">Photo 1</label>
+	<input type="file" name="photo1" id="photo1"> <?php if(empty($photo1)) echo '<img src="../image/photo.png" width="100"><br>'; else echo '<img src="'. $photo1 .'" width="250"><br>'; ?>
+
+	<label for="photo2">Photo 2</label>
+	<input type="file" name="photo2" id="photo2"> <?php if(empty($photo2)) echo '<img src="../image/photo.png" width="100"><br>'; else echo '<img src="'. $photo2 .'" width="250"><br>'; ?>
+
+	<label for="photo3">Photo 3</label>
+	<input type="file" name="photo3" id="photo3"> <?php if(empty($photo3)) echo '<img src="../image/photo.png" width="100"><br>'; else echo '<img src="'. $photo3 .'" width="250"><br>'; ?>
+
+	<label for="photo4">Photo 4</label>
+	<input type="file" name="photo4" id="photo4"> <?php if(empty($photo4)) echo '<img src="../image/photo.png" width="100"><br>'; else echo '<img src="'. $photo4 .'" width="250"><br>'; ?>
+
+	<label for="photo5">Photo 5</label>
+	<input type="file" name="photo5" id="photo5"> <?php if(empty($photo5)) echo '<img src="../image/photo.png" width="100"><br>'; else echo '<img src="'. $photo5 .'" width="250"><br>'; ?>
+	</div>
+	
 	<input type="submit" class="btn primary-btn" value="Enregistrer">
 
 </form>
 
 
 <?php
-
-/*
-$requete = $bdd->query("SELECT * FROM categorie");
-
-while($ligne = $requete->fetch(PDO::FETCH_ASSOC))
-{
-	echo '<option>';
-	foreach($ligne as $indice => $valeur)
-	{
-		if($indice == "id_categorie")
-		{
-			echo $valeur .' - ';
-		}
-		if($indice == "titre")
-		{
-			echo $valeur . '<option>';
-		}
-	}
-}*/
-
 
 }}
 
