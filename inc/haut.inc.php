@@ -21,7 +21,7 @@
 	</head>
 	<body>
 		<header>
-			<nav class="container">
+			<nav class="container-fluid">
 				<a class="navbar-brand" href=<?php echo URL."index.php"; ?> title="Annonceo">Annonceo</a>
 			    <!-- Collect the nav links, forms, and other content for toggling -->
 			    <div class="collapse navbar-collapse" >
@@ -46,6 +46,11 @@
 					?>
 			    	<ul class="nav navbar-nav">
 						<?php
+							if(internauteEstConnecte())
+							{
+								echo '<li><a href="' . URL . 'membre/profil.php">Mon profil</a></li>';
+								echo '<li><a href="' . URL . 'membre/ajouter_annonce.php">Ajouter une annonce</a></li>';
+							}
 							echo '<li><a href="' . URL . 'qui_sommes_nous.php">Qui Sommes Nous</a></li>';
 							echo '<li><a href="' . URL . 'contact.php">Contact</a></li>';
 						?>
@@ -85,9 +90,7 @@
 							<?php
 							if(internauteEstConnecte())// membre du site ayant un compte
 							{
-								echo '<li><a href="' . URL . 'membre/profil.php">Voir votre profil</a></li>';
-								echo '<li><a href="' . URL . 'membre/ajouter_annonce.php">Ajouter une annonce</a></li>';
-								echo '<li><a href="' . URL . 'connexion.php?action=deconnexion">Se déconnecter</a></li>';
+								echo '<li><a href="' . URL . 'connexion.php?action=deconnexion">Déconnexion</a></li>';
 							}
 							else// visiteur
 							{
