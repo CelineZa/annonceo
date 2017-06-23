@@ -51,35 +51,37 @@ $content .= '<a href="?action=ajout"><u>Ajouter une catégorie</u></a><br><br><h
 
 /****************AFFICHAGE DES CATEGORIES*****************/
 
-$r = $bdd->query("SELECT * FROM categorie");
-	$content .= "<h1> Affichage des " . $r->rowCount() . " categories(s)</h1>";
-	$content .= "<table border='1' style='border-collapse:collapse;'><tr>";
-	for ($i= 0; $i< $r->columnCount(); $i++)
-	{
-		$colonne = $r->getColumnMeta($i);
-		$content .= "<th>$colonne[name]</th>";
-	}
-	$content .="<th> actions </th>";
-
-	$content .="</tr>";
-
-	while($ligne = $r->fetch(PDO::FETCH_ASSOC))
-	{
-		$content .= '<tr>';
-
-		foreach($ligne as $indice => $valeur)
+if(isset($_GET['action']) && $_GET['action'] == 'affichage')
+{
+	$r = $bdd->query("SELECT * FROM categorie");
+		$content .= "<h1> Affichage des " . $r->rowCount() . " categories(s)</h1>";
+		$content .= "<table border='1' style='border-collapse:collapse;'><tr>";
+		for ($i= 0; $i< $r->columnCount(); $i++)
 		{
-			$content .= "<td>$valeur</td>";
+			$colonne = $r->getColumnMeta($i);
+			$content .= "<th>$colonne[name]</th>";
 		}
-		$content .= "<td><a href=\"?action=zoom&id_categorie=$ligne[id_categorie]\"><img src=\"../image/zoom.png\" class=\"icon\" alt=\"zoom\"></a>";
+		$content .="<th> actions </th>";
 
-		$content .= "<a href=\"?action=modification&id_categorie=$ligne[id_categorie]\"><img src=\"../image/edit.png\" class=\"icon\" alt=\"modification\"></a>";
-
-		$content .= "<a href=\"?action=suppression&id_categorie=$ligne[id_categorie]\" OnClick=\"return(confirm('En êtes vous certain?'));\"><img src=\"../image/delete.png\" class =\"icon\" alt=\"suppression\"></a></td>";
 		$content .="</tr>";
-	}
-	$content .= '</table>';
 
+		while($ligne = $r->fetch(PDO::FETCH_ASSOC))
+		{
+			$content .= '<tr>';
+
+			foreach($ligne as $indice => $valeur)
+			{
+				$content .= "<td>$valeur</td>";
+			}
+			$content .= "<td><a href=\"?action=zoom&id_categorie=$ligne[id_categorie]\"><img src=\"../image/zoom.png\" class=\"icon\" alt=\"zoom\"></a>";
+
+			$content .= "<a href=\"?action=modification&id_categorie=$ligne[id_categorie]\"><img src=\"../image/edit.png\" class=\"icon\" alt=\"modification\"></a>";
+
+			$content .= "<a href=\"?action=suppression&id_categorie=$ligne[id_categorie]\" OnClick=\"return(confirm('En êtes vous certain?'));\"><img src=\"../image/delete.png\" class =\"icon\" alt=\"suppression\"></a></td>";
+			$content .="</tr>";
+		}
+	$content .= '</table>';
+}
 
 
 

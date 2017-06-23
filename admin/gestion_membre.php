@@ -53,7 +53,8 @@ $content .= '<a href="?action=ajout"><u>Ajouter un membre</u></a><br><br><hr>';
 
 
 /****************AFFICHAGE DES MEMBRES*****************/
-
+if(isset($_GET['action']) && $_GET['action'] == 'affichage')
+{
 	$r = $bdd->query("SELECT * FROM membre");
 	$content .= "<h1> Affichage des " . $r->rowCount() . " membre(s)</h1>";
 	$content .= "<table border='1' style='border-collapse:collapse;'><tr>";
@@ -82,7 +83,7 @@ $content .= '<a href="?action=ajout"><u>Ajouter un membre</u></a><br><br><hr>';
 		$content .="</tr>";
 	}
 	$content .= '</table>';
-
+}
 
 echo $content;
 
