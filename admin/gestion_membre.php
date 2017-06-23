@@ -11,6 +11,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'suppression')
 	$_GET['action'] ='affichage';
 }
 
+
 /***************ENREGISTREMENT DES MEMBRES*******************/
 
 if(!empty($_POST))
@@ -27,10 +28,11 @@ if(!empty($_POST))
 	if(empty($content))
 	{
 
-		$req = "REPLACE INTO membre (pseudo,nom,prenom,telephone,email,civilite,statut) VALUES(:pseudo,:nom,:prenom,:telephone,:email,:civilite,:statut)";
+		$req = "REPLACE INTO membre (id_membre,pseudo,nom,prenom,telephone,email,civilite,statut) VALUES(:id_membre,:pseudo,:nom,:prenom,:telephone,:email,:civilite,:statut)";
 
 		$r = $bdd->prepare($req);
 
+		$r->bindParam(':id_membre',$_POST['id_membre'],PDO::PARAM_STR);
 		$r->bindParam(':pseudo',$_POST['pseudo'],PDO::PARAM_STR);
 		$r->bindParam('nom',$_POST['nom'], PDO::PARAM_STR);
 		$r->bindParam('prenom',$_POST['prenom'], PDO::PARAM_STR);
@@ -43,6 +45,12 @@ if(!empty($_POST))
 
 	}
 }
+
+//----------------------------- Liens ---------------------------------//
+
+$content .= '<a href="?action=affichage"><u>Affichage des membres</u></a><br>';
+$content .= '<a href="?action=ajout"><u>Ajouter un membre</u></a><br><br><hr>';
+
 
 /****************AFFICHAGE DES MEMBRES*****************/
 
@@ -78,7 +86,10 @@ if(!empty($_POST))
 
 echo $content;
 
-/**********************MODIFICATION MEMBRE********************/
+/**********************AFFICHAGE ZOOM ****************************/
+
+
+/**********************AFFICHAGE MEMBRE DANS FORMULAIRE si click sur icone********************/
 if($_GET)
 {
 	if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'modification')
@@ -88,6 +99,7 @@ if($_GET)
 			$resultat = $bdd->query("SELECT * FROM membre WHERE id_membre = $_GET[id_membre]");
 			$membre_actuel = $resultat->fetch(PDO::FETCH_ASSOC);
 		}
+		$id_membre= (isset($membre_actuel['id_membre'])) ? $membre_actuel['id_membre'] :"";
 		$pseudo = (isset($membre_actuel['pseudo'])) ? $membre_actuel['pseudo'] :"";
 		$mdp = (isset($membre_actuel['mdp'])) ? $membre_actuel['mdp'] :"";
 		$nom = (isset($membre_actuel['nom'])) ? $membre_actuel['nom'] :"";
@@ -155,7 +167,7 @@ if($_GET)
 				</select>
 		</div>
 			
-		<button type="submit" class ="btn btn-default">Envoyer les modifications"</button>
+		<button type="submit" class ="btn btn-default">Envoyer les modifications</button>
 </form>
 
 <?php
