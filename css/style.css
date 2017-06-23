@@ -116,6 +116,20 @@ th, tr, td{
     padding-right: 15px;
     padding-left: 15px;
     } */
+
 section .container{
 	margin-bottom: 50px;
+}
+
+.annonce-membre{
+	height: 150px;
+	border: solid 1px #ccc;
+	padding: 0;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.annonce-membre img{
+	float: left;
+	min-height: 100%;
+	width: 200px;
 }

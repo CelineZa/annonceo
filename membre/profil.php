@@ -109,23 +109,23 @@ echo $content;
 
 <div class="bloc-profil">
 	<h2>Mes annonces</h2>
-
 	<?php
-	$req = "SELECT id_annonce, titre, prix, photo FROM annonce WHERE membre_id = $idMembreConnecte";
+	$req = "SELECT id_annonce, titre, prix, photo, description FROM annonce WHERE membre_id = $idMembreConnecte";
 	$r = $bdd->query($req);
 
-	echo '<div class="row">';
 	while($annonce = $r->fetch(PDO::FETCH_ASSOC))
 	{
 		//debug($annonce);
-		echo '<div class="row">';
-		foreach($annonce as $indice => $valeur) {
-			echo '<div class="col-xs-6 col-sm-4">'. $valeur .'</div>';
-		}
+		echo '<div class="col-md-8 col-md-offset-2 annonce-membre">';
+			echo '<img src="' . $annonce['photo'] . '" alt="photo">';
+			echo '<p>' . $annonce['titre'] . '</p>';
+			echo '<p>' . $annonce['description'] . '</p>';
+			echo '<p>' . $annonce['prix'] . '€</p>';
 		echo '</div>';
 	}
-	echo '</div>';
 	?>
+	
+	<div class="clearfix"></div>
 </div>
 
 <div class="bloc-profil">
