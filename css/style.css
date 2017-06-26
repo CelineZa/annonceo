@@ -115,11 +115,6 @@ th, tr, td{
 	padding:5px;
 }
 
-/* .input-group[class*="col-"] {
-    padding-right: 15px;
-    padding-left: 15px;
-    } */
-
 section .container{
 	margin-bottom: 50px;
 }
@@ -140,6 +135,30 @@ section .container{
 	display: flex;
 	position: absolute;
 	width: 200px;
+}
+
+
+/****** FICHE_ANNONCE ! MODAL - LIGHTBOX*****/
+
+#titre_annonce{
+	font-size:25px;
+	font-weight: bolder;
+}
+
+#row
+{
+	margin-top:15px;
+	margin-bottom:15px;
+}
+
+.modal-content{
+	width:700px;
+}
+
+.fiche_annonce_img 
+{
+	width:550px;
+	height:320px;
 }
 
 /********************** front ********************/
