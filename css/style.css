@@ -1,5 +1,7 @@
 *{
-	box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
 }
 body{
 	margin: 0;
@@ -28,6 +30,7 @@ nav{
 	font-size: 1.4rem;
 	text-transform: uppercase;
 	background: #f5f5f5;
+	margin-bottom: 10px;
 }
 nav li:hover{
 	text-decoration: underline;
@@ -37,6 +40,7 @@ nav li:hover a{
 }
 .dropdown{		
 	text-align: center;
+	z-index: 10;
 }
 .dropdown ul{
 	display: none;
@@ -120,16 +124,21 @@ section .container{
 	margin-bottom: 50px;
 }
 
-.annonce-membre{
-	height: 150px;
+.bloc_annonce{
+	position: relative;
+	min-height: 150px;
 	border: solid 1px #ccc;
-	padding: 0;
 	margin-top: 10px;
 	margin-bottom: 10px;
+	padding: 0;
 }
-.annonce-membre img{
-	float: left;
-	min-height: 100%;
+.bloc_annonce h3{
+	margin-top: 10px;
+	font-size: 1.8rem;
+}
+.photo_annonce{ 
+	display: flex;
+	position: absolute;
 	width: 200px;
 }
 
@@ -167,4 +176,39 @@ iframe{
 }
 textarea{
 	resize: none;
+	height: 100%;
+}
+.photo_annonce img{
+	width: 100%;
+	min-height: 100%;
+	margin: auto;
+}
+.texte_annonce{
+	position: absolute;
+	left: 220px;
+	right: 0px;
+	height: 100%;
+}
+.texte_annonce span{
+	font-weight: bold;
+}
+.texte_annonce a{
+	position: absolute;
+	color: #1976D2;
+	right: 15px;
+}
+
+.commentaire-membre {
+	border-bottom: solid 1px #ccc;
+	padding-top: 10px;
+}
+.commentaire-membre span{
+	font-style: italic;
+}
+
+#accueil-form{
+	margin-top: 10px;
+}
+#accueil-form form{
+	width: 100%;
 }

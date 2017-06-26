@@ -62,4 +62,7 @@ INSERT INTO commentaire(membre_id, annonce_id, commentaire, date_enregistrement)
 (1, 1, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, excepturi.', now() ),
 (2, 2, 'Lorem ipsum.', now() ),
 (3, 3, 'Lorem ipsum dolor sit amet.', now() ),
-(4, 4, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.', now() );
+(4, 4, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.', now() ),
+(5, 5, 'Lorem ipsum dolor.', now() ),
+(5, 5, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.', now() ),
+(5, 6, 'Lorem ipsum dolor sit amet, consectetur adipisicing.', now() );
