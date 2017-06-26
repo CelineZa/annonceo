@@ -5,6 +5,7 @@ require_once("inc/haut.inc.php");
 
 <!-- Colonne du formulaire -->
 <div class="col-md-4 form-accueil">
+
 	<form action="" method="post">
 		<div class="form-group">
 			<label for="categorie_id">Catégorie</label>
@@ -50,6 +51,7 @@ require_once("inc/haut.inc.php");
 
 		<button type="submit" class="btn btn-info">Rechercher</button>
 	</form>
+
 </div>
 
 <!-- Colonne des articles -->
@@ -67,25 +69,14 @@ require_once("inc/haut.inc.php");
 
 <?php
 	// Requête de sélection des 5 derniers articles publiés
-/*	if($_POST && !empty($_POST['categorie']))
-	{
-		$req = "SELECT * FROM annonce WHERE categorie_id = '$_POST[categorie]' LIMIT 0, 5";
-	}
-	elseif($_POST && !empty($_POST['ville']))
-	{
-		$req = "SELECT * FROM annonce WHERE ville = '$_POST[ville]' LIMIT 0, 5";
-	}
-	elseif($_POST && !empty($_POST['membre']))
-	{
-		$req = "SELECT * FROM annonce WHERE membre_id = '$_POST[membre]' LIMIT 0, 5";
-	}*/
-
 	if($_POST)
 	{
 		$requete = "SELECT * FROM annonce";
 		$first = true;
-		if(sizeof($_POST) > 1 && !empty($_POST)){
-			foreach($_POST as $indice => $valeur){
+
+		if(sizeof($_POST) > 1){
+			foreach($_POST as $indice => $valeur)
+			{
 				if($valeur != "")
 				{
 					if(!$first){
@@ -98,49 +89,64 @@ require_once("inc/haut.inc.php");
 				}
 			}
 		}
-		else{
-			foreach($_POST as $indice => $valeur){
+		else
+		{
+			foreach($_POST as $indice => $valeur)
+			{
 				$requete .= " WHERE " . $indice . " = '$valeur'";
 				$first = false;
 			}
 		}
-		echo $requete;
+		$requete .= " ORDER BY date_enregistrement DESC LIMIT 0, 5";
+		//echo $requete;
 	}
 	else
 	{
-		$requete = "SELECT * FROM annonce LIMIT 0, 5";
+		$requete = "SELECT * FROM annonce ORDER BY date_enregistrement DESC LIMIT 0, 5";
 	}
 	
-	$r = $bdd->query($requete);
+	$req = $bdd->query($requete);
+	//echo $req->rowCount();
 
-	while($annonce = $r->fetch(PDO::FETCH_ASSOC))
+	if($req->rowCount() > 0)
 	{
+		while($annonce = $req->fetch(PDO::FETCH_ASSOC))
+		{
+		//debug($annonce);
 ?>
-	<div class="bloc_annonce">
-		<div class="photo_annonce">
-			<img src="<?php echo $annonce['photo']; ?>" alt="photo">
-		</div>
-		<div class="texte_annonce">
-			<h3><?php echo $annonce['titre']; ?></h3>
-			<p><?php echo $annonce['description']; ?></p>
-		
-			<p><span><?php echo $annonce['prix']; ?>€</span></p>
-
-			<?php
-			$reqMembre = $bdd->query("SELECT pseudo, moyenne_note FROM membre WHERE id_membre = '$annonce[membre_id]'");
-			$membre = $reqMembre->fetch(PDO::FETCH_ASSOC);
-			?>
+		<div class="bloc_annonce">
+			<div class="photo_annonce">
+				<img src="<?php echo $annonce['photo']; ?>" alt="photo">
+			</div>
+			<div class="texte_annonce">
+				<h3><?php echo $annonce['titre']; ?></h3>
+				<p><?php echo $annonce['description']; ?></p>
 			
-			<p>Posté par : <?php echo $membre['pseudo']; ?> - <?php echo $membre['moyenne_note'];  ?> note(s)</p>
+				<p><span><?php echo $annonce['prix']; ?>€</span></p>
 
-			<p><a href="fiche_annonce.php?id_annonce=<?php echo $annonce['id_annonce']; ?>">Consulter cette annonce</a></p>
+				<?php
+				$reqMembre = $bdd->query("SELECT pseudo, moyenne_note FROM membre WHERE id_membre = '$annonce[membre_id]'");
+				$membre = $reqMembre->fetch(PDO::FETCH_ASSOC);
+				?>
+				
+				<p>Posté par : <?php echo $membre['pseudo']; ?> - <?php echo $membre['moyenne_note'];  ?> note(s)</p>
+
+				<p><a href="fiche_annonce.php?id_annonce=<?php echo $annonce['id_annonce']; ?>">Consulter cette annonce</a></p>
+			</div>
+			<div class="clear"></div>
 		</div>
-		<div class="clear"></div>
-	</div>
+
 <?php
+		} // Fin du while ($annonce)
+?>
+		<p class="voir-plus"><a href="">Voir plus</a></p>
+<?php
+	} // Fin du if($req->rowCount() > 0)
+	else
+	{
+		echo '<div class="alert alert-danger">Aucun(s) résultat(s). Veuillez effectuer une nouvelle recherche.</div>';
 	}
 ?>
-	<p class="voir-plus"><a href="">Voir plus</a></p>
 	<div class="clearfix"></div>
 </div>
 
