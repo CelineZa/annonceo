@@ -157,12 +157,12 @@ address{
 iframe{
 	display:block;
 	width:600px;
-	height:250px;
-	border:solid 1px orange;
+	height:300px;
+	border:solid 1px #eee;
 	margin:30px;
 }
 .form-contact{
-	width:600px;
+	width:300px;
 	margin:30px;
 }
 textarea{
