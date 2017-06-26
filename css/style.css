@@ -1,3 +1,4 @@
+/**** GENERAL ****/
 *{
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
@@ -22,15 +23,27 @@ ul,
 li{
 	list-style: none;
 }
+th, tr, td{
+	width: auto;
+	padding:5px;
+}
+
+section .container{
+	margin-bottom: 50px;
+}
+
+/**** HEADER ****/
 header{
 	background: #f5f5f5;
 	z-index: 100;
+	border-bottom: solid 1px #ccc;
+	box-shadow: 0px 0px 4px #ccc;
+	margin-bottom: 10px;
 }
 nav{
 	font-size: 1.4rem;
 	text-transform: uppercase;
 	background: #f5f5f5;
-	margin-bottom: 10px;
 }
 nav li:hover{
 	text-decoration: underline;
@@ -38,6 +51,8 @@ nav li:hover{
 nav li:hover a{
 	color: #222;
 }
+
+/**** MENU DEROULANT ****/
 .dropdown{		
 	text-align: center;
 	z-index: 10;
@@ -50,13 +65,9 @@ nav li:hover a{
 	margin: 0;
 	padding: 0;
 	width: 100%;
-
-  	/* transform: translateX(200px);
-  		transition: transform 0.5s; */
 }
 .dropdown:hover ul{
 	display: block;
-  	/* transform: translateX(0px); */
 }
 .dropdown li{
 	font-size: 1.2rem;
@@ -68,40 +79,83 @@ nav li:hover a{
 	background: #ccc;
 }
 
-section form{
+/**** STYLE BLOCS ANNONCES (page accueil + profil) ****/
+.bloc_annonce{
+	position: relative;
+	min-height: 170px;
+	border: solid 1px #ccc;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 0;
+}
+.photo_annonce{ 
+	position: absolute;
+	width: 200px;
+	height: 100%;
+}
+.photo_annonce img{
+	width: 100%;
+	height: 100%;
+}
+.texte_annonce{
+	position: absolute;
+	left: 215px;
+	right: 15px;
+	height: 100%;
+	text-align: justify;
+}
+.texte_annonce h3{
+	margin-top: 10px;
+	font-size: 1.8rem;
+	color: #1565C0;
+	font-weight: bold;
+}
+.texte_annonce span{
+	font-weight: bold;
+}
+.texte_annonce a{
+	position: absolute;
+	color: #1976D2;
+	right: 0px;
+}
+
+.voir-plus{
+	text-align: center;
+}
+.voir-plus a{
+	text-decoration: underline;
+}
+
+/**** AFFICHAGE COMMENTAIRES (page profil) ****/
+.commentaire-membre {
+	border-bottom: solid 1px #ccc;
+	padding-top: 10px;
+}
+.commentaire-membre span{
+	font-style: italic;
+}
+
+/**** FORMULAIRES ****/
+
+.form-accueil{
+	margin-top: 10px;
+}
+.form-accueil form{
+	width: 100%;
+}
+
+.form-inscription{
 	width: 600px;
 	margin: 0 auto 50px;
 }
-.btn-primary{
-	width: 100%;
-}
+
 .form-connexion{
 	width: 400px;
+	margin: 0 auto 50px;
 }
 
-footer{
+.btn-primary{
 	width: 100%;
-	position: fixed;
-	bottom: 0;
-	background: #222;
-	color: #fff;
-	font-size: 1.1rem;
-}
-footer a{
-	color: #fff;
-}
-footer a:hover{
-	color: #fff;
-
-}
-footer ul{
-	padding: 0;
-	margin: 0;
-}
-footer li{
-	display: inline-block;
-	margin: 0 10px;
-	line-height: 30px;
 }
 
 /***** backoffice : AFFICHAGE DES TABLEAUX ******/
@@ -110,33 +164,6 @@ footer li{
 	width:20px;
 	margin:10px;
 }
-th, tr, td{
-	width: auto;
-	padding:5px;
-}
-
-section .container{
-	margin-bottom: 50px;
-}
-
-.bloc_annonce{
-	position: relative;
-	min-height: 150px;
-	border: solid 1px #ccc;
-	margin-top: 10px;
-	margin-bottom: 10px;
-	padding: 0;
-}
-.bloc_annonce h3{
-	margin-top: 10px;
-	font-size: 1.8rem;
-}
-.photo_annonce{ 
-	display: flex;
-	position: absolute;
-	width: 200px;
-}
-
 
 /****** FICHE_ANNONCE ! MODAL - LIGHTBOX*****/
 
@@ -182,14 +209,14 @@ section .container{
 
 
 /********************** front ********************/
-p{
+.qui_sommes_nous p{
 	text-align:center;
 	margin:20px;
 	padding:5px;
 	font-size:14px;
 	line-height:20px;
 }
-.photo{
+.qui_sommes_nous .photo{
 	display:inline;
 	text-align:center;
 	margin:30px;
@@ -217,36 +244,32 @@ textarea{
 	resize: none;
 	height: 100%;
 }
-.photo_annonce img{
+
+/**** FOOTER ****/
+
+footer{
 	width: 100%;
-	min-height: 100%;
-	margin: auto;
+	position: fixed;
+	bottom: 0;
+	background: #222;
+	color: #fff;
+	font-size: 1.1rem;
 }
-.texte_annonce{
-	position: absolute;
-	left: 220px;
-	right: 0px;
-	height: 100%;
+footer a{
+	color: #fff;
 }
-.texte_annonce span{
-	font-weight: bold;
-}
-.texte_annonce a{
-	position: absolute;
-	color: #1976D2;
-	right: 15px;
-}
+footer a:hover{
+	color: #fff;
 
-.commentaire-membre {
-	border-bottom: solid 1px #ccc;
-	padding-top: 10px;
 }
-.commentaire-membre span{
-	font-style: italic;
+footer ul{
+	padding: 0;
+	margin: 0;
 }
-
-#accueil-form{
-	margin-top: 10px;
+footer li{
+	display: inline-block;
+	margin: 0 10px;
+	line-height: 30px;
 }
 #accueil-form form{
 	width: 100%;
