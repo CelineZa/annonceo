@@ -116,12 +116,22 @@ echo $content;
 	while($annonce = $r->fetch(PDO::FETCH_ASSOC))
 	{
 		//debug($annonce);
-		echo '<div class="col-md-8 col-md-offset-2 annonce-membre">';
-			echo '<img src="' . $annonce['photo'] . '" alt="photo">';
-			echo '<p>' . $annonce['titre'] . '</p>';
-			echo '<p>' . $annonce['description'] . '</p>';
-			echo '<p>' . $annonce['prix'] . '€</p>';
-		echo '</div>';
+	?>
+
+	<div class="col-md-8 col-md-offset-2 bloc_annonce">
+		<div class="photo_annonce">
+			<img src="<?php echo $annonce['photo']; ?>" alt="photo">
+		</div>
+		<div class="texte_annonce">
+			<h3><?php echo $annonce['titre']; ?></h3>
+			<p><?php echo $annonce['description']; ?></p>
+		
+			<p><span><?php echo $annonce['prix']; ?>€</span></p>
+		</div>
+		<a href="gestion_annonce_membre.php?action=modification&id_annonce=<?php echo $annonce['id_annonce']; ?>">Modifier cette annonce</a>
+	</div>
+	
+	<?php
 	}
 	?>
 	
@@ -130,6 +140,20 @@ echo $content;
 
 <div class="bloc-profil">
 	<h2>Mes commentaires</h2>
+
+	<?php
+	$req = "SELECT * FROM commentaire WHERE membre_id = $idMembreConnecte";
+	$r = $bdd->query($req);
+
+	while($commentaire = $r->fetch(PDO::FETCH_ASSOC))
+	{
+		//debug($commentaire);
+		echo '<div class="col-md-8 col-md-offset-2 commentaire-membre">';
+			echo '<p>Annonce n°' . $commentaire['annonce_id'] . ' - <span>' . $commentaire['date_enregistrement'] . '</span></p>';
+			echo '<p>' . $commentaire['commentaire'] . '</p>';
+		echo '</div>';
+	}
+	?>
 </div>
 
 <?php
