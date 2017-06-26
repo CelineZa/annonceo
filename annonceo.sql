@@ -71,9 +71,3 @@ CREATE TABLE membre(
 	moyenne_note INT(4) NOT NULL,
 	PRIMARY KEY(id_membre)
 )ENGINE=InnoDB;
-
-ALTER TABLE annonce ADD FOREIGN KEY (membre_id) REFERENCES annonceo.membre(id_membre);
-ALTER TABLE annonce ADD FOREIGN KEY (photo_id) REFERENCES annonceo.photo(id_photo);
-ALTER TABLE annonce ADD FOREIGN KEY (categorie_id) REFERENCES annonceo.categorie(id_categorie);
-ALTER TABLE commentaire ADD FOREIGN KEY (membre_id) REFERENCES annonceo.membre(id_membre);
-ALTER TABLE commentaire ADD FOREIGN KEY (annonce_id) REFERENCES annonceo.annonce(id_annonce);

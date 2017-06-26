@@ -131,8 +131,9 @@ if(!empty($_POST))
    		$content .= '<div class="alert alert-danger">Ce format d\'url est invalide, veuillez recommencer</div>';
 	}*/
 
+	$idPhotoSupplementaire = '';
 
-	if(empty($content)){ 
+	if(empty($content)){
 
 		$content .= '<div class="alert alert-success">L\'annonce a été enregistrée avec succès !</div>';
 
@@ -148,10 +149,12 @@ if(!empty($_POST))
 
 		$re->execute();
 
+		$idPhotoSupplementaire = $bdd->lastInsertId();
+		//echo $idPhotoSupplementaire;
 
 		
 
-		$req = "REPLACE INTO annonce(id_annonce, titre, description, prix, photo, pays, ville, adresse, cp, membre_id, photo_id, categorie_id, date_enregistrement)VALUES(:id_annonce, :titre, :description, :prix, :photo, :pays, :ville, :adresse, :cp, :membre_id, :photo_id, :categorie_id, :date_enregistrement)";
+		$req = "REPLACE INTO annonce(id_annonce, titre, description, prix, photo, pays, ville, adresse, cp, membre_id, photo_id, categorie_id, date_enregistrement)VALUES(:id_annonce, :titre, :description, :prix, :photo, :pays, :ville, :adresse, :cp, :membre_id, :photo_id, :categorie_id, NOW())";
 
 		$r = $bdd->prepare($req);
 
@@ -165,9 +168,8 @@ if(!empty($_POST))
 		$r->bindValue(':adresse', $_POST['adresse'], PDO::PARAM_STR);
 		$r->bindValue(':cp', $_POST['cp'], PDO::PARAM_STR);
 		$r->bindValue(':membre_id', $_POST['membre_id'], PDO::PARAM_STR);
-		$r->bindValue(':photo_id', $_POST['photo_id'], PDO::PARAM_STR);
 		$r->bindValue(':categorie_id', $_POST['categorie_id'], PDO::PARAM_STR);
-		$r->bindValue(':date_enregistrement', $_POST['date_enregistrement'], PDO::PARAM_STR);
+		$r->bindValue(':photo_id', $idPhotoSupplementaire, PDO::PARAM_STR);
 
 		$r->execute();
 
@@ -387,10 +389,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'm
 	<label for="photo">Photo principale</label>
 	<input type="file" name="photo" id="photo" > <?php if(empty($photo)) {echo '<img src="../image/photo.png" width="250"><br>';} else {echo'<i>Vous pouvez uploader une nouvelle photo si vous souhaitez la modifier</i><br>'; echo '<img src="'. $photo .'" width="250"><br>';} ?>
 
-	<div class="form-group">
-	<label for="photo_id">photo_id</label>
-	<input type="text" id="photo_id" name="photo_id" value="<?php echo $photo_id; ?>">
-	</div>
+	<input type="hidden" id="photo_id" name="photo_id" value="<?php echo $photo_id; ?>">
 
 	<label for="photo1">Photo 1</label>
 	<input type="file" name="photo1" id="photo1"> <?php if(empty($photo1)) echo '<img src="../image/photo.png" width="100"><br>'; else echo '<img src="'. $photo1 .'" width="250"><br>'; ?>
