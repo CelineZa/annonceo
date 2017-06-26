@@ -27,6 +27,12 @@ if(!empty($_POST))
 {
 
 	$photo_bdd ='';
+	$photo1_bdd ='';
+	$photo2_bdd ='';
+	$photo3_bdd ='';
+	$photo4_bdd ='';
+	$photo5_bdd ='';
+
 
 	if(isset($_GET['action']) && $_GET['action'] == 'modification' || $_GET['action'] == 'ajout' )
 	{
@@ -36,25 +42,17 @@ if(!empty($_POST))
 	if(!empty($_FILES['photo']['name']))
 	{
 		$nom_photo = $_POST['membre_id'] . '_' . $_FILES['photo']['name'];
-
 		$photo_bdd = URL . "photo/$nom_photo";
-	
 		$photo_dossier = RACINE_SITE . "photo/$nom_photo";
-		
 		copy($_FILES['photo']['tmp_name'], $photo_dossier);
 		//echo '<pre>'; print_r($_POST); echo '</pre>';
 	}
 
-
-
 	if(!empty($_FILES['photo1']['name']))
 	{
 		$nom_photo = $_POST['membre_id'] . '_' . $_FILES['photo1']['name'];
-
 		$photo1_bdd = URL . "photo/$nom_photo";
-		
 		$photo_dossier = RACINE_SITE . "photo/$nom_photo";
-			
 		copy($_FILES['photo1']['tmp_name'], $photo_dossier);
 		//echo '<pre>'; print_r($_POST); echo '</pre>';
 	}
@@ -62,11 +60,8 @@ if(!empty($_POST))
 	if(!empty($_FILES['photo2']['name']))
 	{
 		$nom_photo = $_POST['membre_id'] . '_' . $_FILES['photo2']['name'];
-
 		$photo2_bdd = URL . "photo/$nom_photo";
-		
 		$photo_dossier = RACINE_SITE . "photo/$nom_photo";
-			
 		copy($_FILES['photo2']['tmp_name'], $photo_dossier);
 		//echo '<pre>'; print_r($_POST); echo '</pre>';
 	}
@@ -74,11 +69,8 @@ if(!empty($_POST))
 	if(!empty($_FILES['photo3']['name']))
 	{
 		$nom_photo = $_POST['membre_id'] . '_' . $_FILES['photo3']['name'];
-
 		$photo3_bdd = URL . "photo/$nom_photo";
-		
 		$photo_dossier = RACINE_SITE . "photo/$nom_photo";
-			
 		copy($_FILES['photo3']['tmp_name'], $photo_dossier);
 		//echo '<pre>'; print_r($_POST); echo '</pre>';
 	}
@@ -86,11 +78,8 @@ if(!empty($_POST))
 	if(!empty($_FILES['photo4']['name']))
 	{
 		$nom_photo = $_POST['membre_id'] . '_' . $_FILES['photo4']['name'];
-
 		$photo4_bdd = URL . "photo/$nom_photo";
-		
 		$photo_dossier = RACINE_SITE . "photo/$nom_photo";
-			
 		copy($_FILES['photo4']['tmp_name'], $photo_dossier);
 		//echo '<pre>'; print_r($_POST); echo '</pre>';
 	}
@@ -98,16 +87,11 @@ if(!empty($_POST))
 	if(!empty($_FILES['photo5']['name']))
 	{
 		$nom_photo = $_POST['membre_id'] . '_' . $_FILES['photo5']['name'];
-
 		$photo5_bdd = URL . "photo/$nom_photo";
-		
 		$photo_dossier = RACINE_SITE . "photo/$nom_photo";
-			
 		copy($_FILES['photo5']['tmp_name'], $photo_dossier);
 		//echo '<pre>'; print_r($_POST); echo '</pre>';
 	}
-
-
 
 
 	
@@ -237,6 +221,22 @@ while($ligne = $r->fetch(PDO::FETCH_ASSOC))
 		{
 			$content .= '<td><img src="' . $valeur . '" class="miniature" width="200px"></td>';
 		}
+		elseif($indice == 'membre_id')
+		{
+			//On fait une requête pour récupérer l'id et le nom du membre
+			$reqMembre = $bdd->query("SELECT id_membre, prenom, nom FROM membre WHERE id_membre = $valeur");
+			$membre = $reqMembre->fetch(PDO::FETCH_ASSOC);
+			$content .= '<td>' . $membre['id_membre'] . ' - ' . $membre['prenom'] . ' ' . $membre['nom'] . '</td>';
+			//debug($reqMembre->fetch(PDO::FETCH_ASSOC));
+		}
+		elseif($indice == 'categorie_id')
+		{
+			//On fait une requête pour récupérer l'id et le nom de la catégorie
+			$reqCategorie = $bdd->query("SELECT id_categorie, titre FROM categorie WHERE id_categorie = $valeur");
+			$categorie = $reqCategorie->fetch(PDO::FETCH_ASSOC);
+			$content .= '<td>' . $categorie['id_categorie'] . ' - ' . $categorie['titre']. '</td>';
+			//debug($reqMembre->fetch(PDO::FETCH_ASSOC));
+		}
 		else
 		{
 			$content .= '<td>' . $valeur . '</td>';
@@ -291,6 +291,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'm
 		$annonc_actuel = $result->fetch(PDO::FETCH_ASSOC); 
 	}
 
+	//$id_photo = (isset($annonc_actuel['id_photo'])) ? $annonc_actuel['id_photo'] : '';
 	$photo1 = (isset($annonc_actuel['photo1'])) ? $annonc_actuel['photo1'] : '';
 	$photo2 = (isset($annonc_actuel['photo2'])) ? $annonc_actuel['photo2'] : '';
 	$photo3 = (isset($annonc_actuel['photo3'])) ? $annonc_actuel['photo3'] : '';
@@ -310,6 +311,8 @@ if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'm
   <div class="col-md-6">
 
 	<input type="hidden" id="id_annonce" name="id_annonce" value="<?php echo $id_annonce; ?>">
+	<input type="hidden" id="membre_id" name="membre_id" value="<?php echo $membre_id; ?>">
+	<input type="hidden" id="date_enregistrement" name="date_enregistrement" value="<?php echo $date_enregistrement; ?>">
 
 	<div class="form-group">
 	<label for="titre">Titre</label>
@@ -376,18 +379,6 @@ if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'm
 	<input class="form-control" type="text" name="cp" id="cp" placeholder="cp" required="required" value="<?php echo $cp; ?>">
 	</div>
 
-	<input type="hidden" id="membre_id" name="membre_id" value="<?php echo $membre_id; ?>">
-
-	<div class="form-group">
-	<label for="photo_id">Photo id</label>
-	<input class="form-control" type="text" name="photo_id" id="photo_id" placeholder="photo_id" required="required" value="<?php echo $photo_id; ?>">
-	</div>
-
-	<div class="form-group">
-	<label for="date_enregistrement">Date d'enregistrement</label>
-	<input class="form-control" type="date" name="date_enregistrement" id="date_enregistrement" placeholder="date d'enregistrement" required="required" value="<?php echo $date_enregistrement; ?>">
-	</div>
-
 </div>
 
 	<input type="hidden" name="photo_actuelle" value="<?php echo $photo; ?>">
@@ -395,6 +386,11 @@ if(isset($_GET['action']) && $_GET['action'] == 'ajout' || $_GET['action'] == 'm
 	<div class="form-group">
 	<label for="photo">Photo principale</label>
 	<input type="file" name="photo" id="photo" > <?php if(empty($photo)) {echo '<img src="../image/photo.png" width="250"><br>';} else {echo'<i>Vous pouvez uploader une nouvelle photo si vous souhaitez la modifier</i><br>'; echo '<img src="'. $photo .'" width="250"><br>';} ?>
+
+	<div class="form-group">
+	<label for="photo_id">photo_id</label>
+	<input type="text" id="photo_id" name="photo_id" value="<?php echo $photo_id; ?>">
+	</div>
 
 	<label for="photo1">Photo 1</label>
 	<input type="file" name="photo1" id="photo1"> <?php if(empty($photo1)) echo '<img src="../image/photo.png" width="100"><br>'; else echo '<img src="'. $photo1 .'" width="250"><br>'; ?>
