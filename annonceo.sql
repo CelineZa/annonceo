@@ -71,9 +71,3 @@ CREATE TABLE membre(
 	moyenne_note INT(4) NOT NULL,
 	PRIMARY KEY(id_membre)
 )ENGINE=InnoDB;
-
-
-
-
-
-
