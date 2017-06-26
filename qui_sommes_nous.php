@@ -6,7 +6,7 @@ require_once("inc/haut.inc.php");
 
 <h1 class="center">bonjour, nous sommes annonceo</h1>
 
-<div class="row">
+<div class="row qui_sommes_nous">
   	<div class="col-md-12">
   	
 	<p>Annonceo, c’est une histoire de proximité. C’est comme une place de village : on se retrouve au « coin de la rue » ou au « café du coin » pour conclure une vente entre voisins. On partage avec un inconnu un moment de connivence autour d’une passion commune, à l’image d’une rencontre vue à la télé entre un fan de guitare pour gauchers et une rock star internationale. Cette proximité, on la cultive au quotidien chez leboncoin, à Paris comme à Montceau et à Reims, là où nous avons ouvert nos bureaux. Sans doute l’héritage de nos origines suédoises et de ce fameux management de proximité à la scandinave.</p>

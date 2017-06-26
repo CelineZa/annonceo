@@ -127,10 +127,10 @@ echo $content;
 			<p><?php echo $annonce['description']; ?></p>
 		
 			<p><span><?php echo $annonce['prix']; ?>€</span></p>
+			<p><a href="gestion_annonce_membre.php?action=modification&id_annonce=<?php echo $annonce['id_annonce']; ?>">Modifier cette annonce</a></p>
 		</div>
-		<a href="gestion_annonce_membre.php?action=modification&id_annonce=<?php echo $annonce['id_annonce']; ?>">Modifier cette annonce</a>
 	</div>
-	
+
 	<?php
 	}
 	?>

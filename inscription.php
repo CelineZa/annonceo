@@ -63,7 +63,7 @@ echo $content;
 
 <h1>Inscription</h1>
 
-<form action="" method="POST">
+<form action="" method="POST" class="form-inscription">
 	
 	<div class="form-group">
 		<label for="pseudo">Pseudo :</label>
