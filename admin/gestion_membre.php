@@ -43,6 +43,8 @@ if(!empty($_POST))
 
 		$r->execute();
 
+		$content .= '<div class="alert alert-success">Le membre a été intégré avec succès !</div>';
+
 	}
 }
 
