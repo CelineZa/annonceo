@@ -7,14 +7,14 @@ require_once("inc/haut.inc.php");
 <div class="col-md-4 form-accueil">
 	<form action="" method="post">
 		<div class="form-group">
-			<label for="categorie">Catégorie</label>
-			<select name="categorie" class="form-control">
+			<label for="categorie_id">Catégorie</label>
+			<select name="categorie_id" id="categorie_id" class="form-control">
 				<option value="">Toutes les catégories</option>
 				<?php
-				$reqCategorie = $bdd->query("SELECT DISTINCT titre FROM categorie");
+				$reqCategorie = $bdd->query("SELECT id_categorie, titre FROM categorie");
 				while($categorie = $reqCategorie->fetch(PDO::FETCH_ASSOC))
 				{
-					echo '<option value="'. $categorie['titre'] .'">'. $categorie['titre'] .'</option>';
+					echo '<option value="'. $categorie['id_categorie'] .'">'. $categorie['titre'] .'</option>';
 				}
 				?>
 			</select>
@@ -35,14 +35,14 @@ require_once("inc/haut.inc.php");
 		</div>
 
 		<div class="form-group">
-			<label for="membre">Membre</label>
-			<select name="membre" class="form-control">
+			<label for="membre_id">Membre</label>
+			<select name="membre_id" id="membre_id" class="form-control">
 			  <option value="">Tous les membres</option>
 				<?php
-				$reqMembre = $bdd->query("SELECT pseudo FROM membre");
+				$reqMembre = $bdd->query("SELECT id_membre, pseudo FROM membre");
 				while($membre = $reqMembre->fetch(PDO::FETCH_ASSOC))
 				{
-					echo '<option value="'. $membre['pseudo'] .'">'. $membre['pseudo'] .'</option>';
+					echo '<option value="'. $membre['id_membre'] .'">'. $membre['pseudo'] .'</option>';
 				}
 				?>
 			</select>
@@ -54,7 +54,7 @@ require_once("inc/haut.inc.php");
 
 <!-- Colonne des articles -->
 <div class="col-md-8">
-
+<div id="test"></div>
 <form action="" method="post">
 	<div class="form-group">
 		<label for="tri">Trier</label>
@@ -67,16 +67,51 @@ require_once("inc/haut.inc.php");
 
 <?php
 	// Requête de sélection des 5 derniers articles publiés
-	if($_POST && !empty($_POST['categorie']))
+/*	if($_POST && !empty($_POST['categorie']))
 	{
-		$req = "SELECT * FROM annonce WHERE categorie_id = (SELECT id_categorie FROM categorie WHERE titre = '$_POST[categorie]') LIMIT 0, 5";
+		$req = "SELECT * FROM annonce WHERE categorie_id = '$_POST[categorie]' LIMIT 0, 5";
+	}
+	elseif($_POST && !empty($_POST['ville']))
+	{
+		$req = "SELECT * FROM annonce WHERE ville = '$_POST[ville]' LIMIT 0, 5";
+	}
+	elseif($_POST && !empty($_POST['membre']))
+	{
+		$req = "SELECT * FROM annonce WHERE membre_id = '$_POST[membre]' LIMIT 0, 5";
+	}*/
+
+	if($_POST)
+	{
+		$requete = "SELECT * FROM annonce";
+		$first = true;
+		if(sizeof($_POST) > 1 && !empty($_POST)){
+			foreach($_POST as $indice => $valeur){
+				if($valeur != "")
+				{
+					if(!$first){
+						$requete .= " AND " . $indice . " = '$valeur'";
+					}
+					else{
+						$requete .= " WHERE " . $indice . " = '$valeur'";
+						$first = false;
+					}
+				}
+			}
+		}
+		else{
+			foreach($_POST as $indice => $valeur){
+				$requete .= " WHERE " . $indice . " = '$valeur'";
+				$first = false;
+			}
+		}
+		echo $requete;
 	}
 	else
 	{
-		$req = "SELECT * FROM annonce LIMIT 0, 5";
+		$requete = "SELECT * FROM annonce LIMIT 0, 5";
 	}
 	
-	$r = $bdd->query($req);
+	$r = $bdd->query($requete);
 
 	while($annonce = $r->fetch(PDO::FETCH_ASSOC))
 	{
@@ -106,7 +141,6 @@ require_once("inc/haut.inc.php");
 	}
 ?>
 	<p class="voir-plus"><a href="">Voir plus</a></p>
-	
 	<div class="clearfix"></div>
 </div>
 
