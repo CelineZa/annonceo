@@ -122,6 +122,22 @@ while($ligne = $r->fetch(PDO::FETCH_ASSOC))
 		{
 			$content .= '<td><img src="' . $valeur . '" class="miniature" width="200px"></td>';
 		}
+		elseif($indice == 'membre_id')
+		{
+			//On fait une requête pour récupérer l'id et le nom du membre
+			$reqMembre = $bdd->query("SELECT id_membre, prenom, nom FROM membre WHERE id_membre = $valeur");
+			$membre = $reqMembre->fetch(PDO::FETCH_ASSOC);
+			$content .= '<td>' . $membre['id_membre'] . ' - ' . $membre['prenom'] . ' ' . $membre['nom'] . '</td>';
+			//debug($reqMembre->fetch(PDO::FETCH_ASSOC));
+		}
+		elseif($indice == 'categorie_id')
+		{
+			//On fait une requête pour récupérer l'id et le nom de la catégorie
+			$reqCategorie = $bdd->query("SELECT id_categorie, titre FROM categorie WHERE id_categorie = $valeur");
+			$categorie = $reqCategorie->fetch(PDO::FETCH_ASSOC);
+			$content .= '<td>' . $categorie['id_categorie'] . ' - ' . $categorie['titre']. '</td>';
+			//debug($reqMembre->fetch(PDO::FETCH_ASSOC));
+		}
 		else
 		{
 			$content .= '<td>' . $valeur . '</td>';
